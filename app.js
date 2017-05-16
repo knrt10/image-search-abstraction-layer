@@ -5,7 +5,7 @@ const app = express();
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const Bing = require("node-bing-api")({accKey:' b420e0cc437f4d88aa9dcaa8039e76db'});
+const Bing = require("node-bing-api")({accKey:'process.env.API_KEY'});
 const searchTerm = require('./models/searchTerm');
 app.use(bodyparser.json());
 app.use(cors());
@@ -51,24 +51,11 @@ app.get('/api/imagesearch/:searchVal*',(req , res ,next)=>{
     });
     
    
-    var searchOffset;
-    
-    if(offset){
-        if(offset==1){
-            offset=0;
-            searchOffset=1;
-        }
-        else if(offset>1){
-            searchOffset = offset + 1;
-        }
-    }
    
    
     
    Bing.images(searchVal,{
-       top:(10 * searchOffset),
-       skip:(10 * offset)
-       
+         top:10
    },function(error,rez,body){
       
       var bingData = [] ;
